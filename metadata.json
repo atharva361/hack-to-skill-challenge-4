@@ -1,0 +1,8 @@
+{
+  "name": "FIFA World Cup Stats and Stadium Hub",
+  "description": "Comprehensive FIFA World Cup stats manager, live match tracker, interactive seat booking mapper, stadium dashboard, and AI helper bot.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

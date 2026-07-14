@@ -132,7 +132,7 @@ INSTRUCTIONS FOR NAVIGATION RESPONSES:
     const promptText = `${chatHistory}\nUser: ${userMessage}\nAssistant:`;
 
     const response = await ai.models.generateContent({
-      model: 'gemini-3.5-flash',
+      model: 'gemini-2.5-flash',
       contents: promptText,
       config: {
         systemInstruction: systemPrompt,

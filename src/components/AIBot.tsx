@@ -164,7 +164,7 @@ export default function AIBot({ onNavigateToSeat }: AIBotProps) {
                 }`}>
                   {msg.text}
                 </div>
-                <span className={`text-[10px] text-zinc-500 ${isBot ? 'text-left pl-1' : 'text-right pr-1'}`}>
+                <span className={`text-[10px] text-zinc-400 ${isBot ? 'text-left pl-1' : 'text-right pr-1'}`}>
                   {msg.timestamp}
                 </span>
               </div>
@@ -180,7 +180,7 @@ export default function AIBot({ onNavigateToSeat }: AIBotProps) {
               <span className="h-1.5 w-1.5 bg-zinc-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
               <span className="h-1.5 w-1.5 bg-zinc-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
               <span className="h-1.5 w-1.5 bg-zinc-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
-              <span className="text-xs font-mono ml-1.5 text-zinc-500">Calculating directions...</span>
+              <span className="text-xs font-mono ml-1.5 text-zinc-400">Calculating directions...</span>
             </div>
           </div>
         )}
@@ -190,7 +190,7 @@ export default function AIBot({ onNavigateToSeat }: AIBotProps) {
       {/* Suggestion Chips */}
       {messages.length === 1 && (
         <div className="mb-3" id="suggestion-chips-container">
-          <span className="text-[10px] font-bold text-zinc-500 tracking-wider uppercase block mb-1.5 pl-1 flex items-center gap-1">
+          <span className="text-[10px] font-bold text-zinc-400 tracking-wider uppercase block mb-1.5 pl-1 flex items-center gap-1">
             <HelpCircle className="h-3.5 w-3.5" /> SUGGESTED QUESTIONS
           </span>
           <div className="flex flex-wrap gap-1.5">
@@ -223,14 +223,16 @@ export default function AIBot({ onNavigateToSeat }: AIBotProps) {
           onChange={(e) => setInput(e.target.value)}
           placeholder="Ask fifa guider (e.g. 'How to get to Block 102?')..."
           id="chat-input-field"
-          className="flex-1 bg-zinc-950 border border-zinc-800 focus:border-amber-500/50 focus:outline-none rounded-xl px-4 py-3 text-sm text-zinc-200 placeholder-zinc-500 transition-colors duration-300"
+          aria-label="Ask fifa guider stadium directions"
+          className="flex-1 bg-zinc-950 border border-zinc-800 focus:border-amber-500/50 focus:outline-none rounded-xl px-4 py-3 text-sm text-zinc-200 placeholder-zinc-400 transition-colors duration-300"
           disabled={isLoading}
         />
         <button
           type="submit"
           id="btn-send-message"
+          aria-label="Send message"
           disabled={isLoading || !input.trim()}
-          className="h-11 w-11 rounded-xl bg-amber-500 hover:bg-amber-400 text-zinc-950 flex items-center justify-center transition-all duration-300 shadow-md shadow-amber-950/25 active:scale-95 disabled:bg-zinc-800 disabled:text-zinc-600 disabled:shadow-none cursor-pointer"
+          className="h-11 w-11 rounded-xl bg-amber-500 hover:bg-amber-400 text-zinc-950 flex items-center justify-center transition-all duration-300 shadow-md shadow-amber-950/25 active:scale-95 disabled:bg-zinc-800 disabled:text-zinc-500 disabled:shadow-none cursor-pointer"
         >
           <Send className="h-4.5 w-4.5 text-zinc-950" />
         </button>

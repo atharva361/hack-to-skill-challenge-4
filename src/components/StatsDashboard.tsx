@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Match, PlayerStats, HistoricalTournament, Stadium, MatchEvent, FacilityStatus } from '../types';
 import { INITIAL_MATCHES, INITIAL_PLAYERS, INITIAL_TOURNAMENTS, INITIAL_STADIUMS } from '../data/mockData';
 import { Search, Trophy, Users, Shield, Award, Sparkles, Plus, Play, Info, AlertTriangle, Check, Sliders, RefreshCw, Star } from 'lucide-react';
@@ -205,19 +205,23 @@ export default function StatsDashboard({ stadiumsOverride, onStadiumUpdate }: St
     }
   };
 
-  // Filtering players list
-  const filteredPlayers = players.filter(p => {
-    const matchesSearch = p.name.toLowerCase().includes(playerSearch.toLowerCase()) || p.team.toLowerCase().includes(playerSearch.toLowerCase());
-    const matchesPosition = playerPositionFilter === 'All' || p.position === playerPositionFilter;
-    return matchesSearch && matchesPosition;
-  }).sort((a, b) => b.rating - a.rating);
+  // Filtering players list (memoized for efficiency)
+  const filteredPlayers = useMemo(() => {
+    return players.filter(p => {
+      const matchesSearch = p.name.toLowerCase().includes(playerSearch.toLowerCase()) || p.team.toLowerCase().includes(playerSearch.toLowerCase());
+      const matchesPosition = playerPositionFilter === 'All' || p.position === playerPositionFilter;
+      return matchesSearch && matchesPosition;
+    }).sort((a, b) => b.rating - a.rating);
+  }, [players, playerSearch, playerPositionFilter]);
 
-  // Filtering historical tournaments list
-  const filteredTournaments = tournaments.filter(t => {
-    return t.host.toLowerCase().includes(tournamentSearch.toLowerCase()) || 
-           t.winner.toLowerCase().includes(tournamentSearch.toLowerCase()) ||
-           t.year.toString().includes(tournamentSearch);
-  });
+  // Filtering historical tournaments list (memoized for efficiency)
+  const filteredTournaments = useMemo(() => {
+    return tournaments.filter(t => {
+      return t.host.toLowerCase().includes(tournamentSearch.toLowerCase()) || 
+             t.winner.toLowerCase().includes(tournamentSearch.toLowerCase()) ||
+             t.year.toString().includes(tournamentSearch);
+    });
+  }, [tournaments, tournamentSearch]);
 
   return (
     <div className="flex flex-col gap-6" id="stats-dashboard-view">
@@ -462,14 +466,15 @@ export default function StatsDashboard({ stadiumsOverride, onStadiumUpdate }: St
               {/* Search input and select filter */}
               <div className="flex items-center gap-2 w-full sm:w-auto">
                 <div className="relative flex-1 sm:w-44">
-                  <Search className="absolute left-2.5 top-2.5 h-3.5 w-3.5 text-zinc-500" />
+                  <Search className="absolute left-2.5 top-2.5 h-3.5 w-3.5 text-zinc-400" />
                   <input
                     type="text"
                     placeholder="Search name..."
                     value={playerSearch}
                     onChange={(e) => setPlayerSearch(e.target.value)}
                     id="player-search-input"
-                    className="w-full bg-zinc-950 border border-zinc-800 rounded-lg pl-8 pr-3 py-2 text-xs text-zinc-200 placeholder-zinc-500 focus:outline-none focus:border-amber-500/50"
+                    aria-label="Search players by name"
+                    className="w-full bg-zinc-950 border border-zinc-800 rounded-lg pl-8 pr-3 py-2 text-xs text-zinc-200 placeholder-zinc-400 focus:outline-none focus:border-amber-500/50"
                   />
                 </div>
 
@@ -477,6 +482,7 @@ export default function StatsDashboard({ stadiumsOverride, onStadiumUpdate }: St
                   value={playerPositionFilter}
                   onChange={(e) => setPlayerPositionFilter(e.target.value)}
                   id="player-position-filter"
+                  aria-label="Filter players by position"
                   className="bg-zinc-950 border border-zinc-800 rounded-lg text-xs text-zinc-300 py-2 px-2 focus:outline-none"
                 >
                   <option value="All">All Positions</option>
@@ -492,7 +498,7 @@ export default function StatsDashboard({ stadiumsOverride, onStadiumUpdate }: St
             <div className="overflow-x-auto" id="player-rankings-table-container">
               <table className="w-full text-left border-collapse text-xs">
                 <thead>
-                  <tr className="border-b border-zinc-800/80 text-zinc-500 font-bold uppercase tracking-wider">
+                  <tr className="border-b border-zinc-800/80 text-zinc-400 font-bold uppercase tracking-wider">
                     <th className="py-2 pl-2">Rank</th>
                     <th className="py-2">Player</th>
                     <th className="py-2">Team</th>
@@ -510,7 +516,7 @@ export default function StatsDashboard({ stadiumsOverride, onStadiumUpdate }: St
                         <td className="py-2.5">
                           <div>
                             <span className="font-bold text-zinc-200 block text-sm">{player.name}</span>
-                            <span className="text-[10px] text-zinc-500">{player.position}</span>
+                            <span className="text-[10px] text-zinc-400">{player.position}</span>
                           </div>
                         </td>
                         <td className="py-2.5 text-zinc-300 font-medium">
@@ -529,7 +535,7 @@ export default function StatsDashboard({ stadiumsOverride, onStadiumUpdate }: St
                     ))
                   ) : (
                     <tr>
-                      <td colSpan={7} className="py-8 text-center text-zinc-500">No matching World Cup playmakers found.</td>
+                      <td colSpan={7} className="py-8 text-center text-zinc-400">No matching World Cup playmakers found.</td>
                     </tr>
                   )}
                 </tbody>
@@ -548,14 +554,15 @@ export default function StatsDashboard({ stadiumsOverride, onStadiumUpdate }: St
               </div>
 
               <div className="relative w-full sm:w-44">
-                <Search className="absolute left-2.5 top-2.5 h-3.5 w-3.5 text-zinc-500" />
+                <Search className="absolute left-2.5 top-2.5 h-3.5 w-3.5 text-zinc-400" />
                 <input
                   type="text"
                   placeholder="Search Host / Champ..."
                   value={tournamentSearch}
                   onChange={(e) => setTournamentSearch(e.target.value)}
                   id="tournament-search-input"
-                  className="w-full bg-zinc-950 border border-zinc-800 rounded-lg pl-8 pr-3 py-2 text-xs text-zinc-200 placeholder-zinc-500 focus:outline-none focus:border-amber-500/50"
+                  aria-label="Search tournaments by host or champion"
+                  className="w-full bg-zinc-950 border border-zinc-800 rounded-lg pl-8 pr-3 py-2 text-xs text-zinc-200 placeholder-zinc-400 focus:outline-none focus:border-amber-500/50"
                 />
               </div>
             </div>

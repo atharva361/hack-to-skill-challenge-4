@@ -300,21 +300,21 @@ export default function StadiumMap({ selectedBlockIdFromBot, onBookingComplete }
           {/* Seat Block Metadata Metrics */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3.5 mt-4">
             <div className="bg-zinc-950 border border-zinc-800 rounded-xl p-3">
-              <span className="text-[10px] font-bold text-zinc-500 uppercase tracking-wide">Category tier</span>
+              <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-wide">Category tier</span>
               <strong className="text-sm text-zinc-200 block mt-0.5">{selectedBlock.category}</strong>
             </div>
             <div className="bg-zinc-950 border border-zinc-800 rounded-xl p-3">
-              <span className="text-[10px] font-bold text-zinc-500 uppercase tracking-wide">Base Price</span>
+              <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-wide">Base Price</span>
               <strong className="text-sm text-amber-500 block mt-0.5">${selectedBlock.price} USD</strong>
             </div>
             <div className="bg-zinc-950 border border-zinc-800 rounded-xl p-3">
-              <span className="text-[10px] font-bold text-zinc-500 uppercase tracking-wide">Allocation Availability</span>
+              <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-wide">Allocation Availability</span>
               <strong className="text-sm text-zinc-200 block mt-0.5">
                 {selectedBlock.capacity - selectedBlock.bookedCount} / {selectedBlock.capacity} left
               </strong>
             </div>
             <div className="bg-zinc-950 border border-zinc-800 rounded-xl p-3">
-              <span className="text-[10px] font-bold text-zinc-500 uppercase tracking-wide">Gate Entrance</span>
+              <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-wide">Gate Entrance</span>
               <strong className="text-sm text-zinc-200 block mt-0.5 flex items-center gap-1">
                 <Navigation className="h-3.5 w-3.5 text-amber-500" />
                 {selectedBlock.gateEntrance}
@@ -365,6 +365,7 @@ export default function StadiumMap({ selectedBlockIdFromBot, onBookingComplete }
                     id={`btn-seat-${seat.row}-${seat.number}`}
                     disabled={isBooked}
                     onClick={() => handleSelectSeat(seat)}
+                    aria-label={`Seat ${seat.row}-${seat.number} ${isBooked ? 'Booked' : 'Available'}`}
                     title={`Seat ${seat.row}-${seat.number} (${isBooked ? 'Booked' : 'Available'})`}
                     className={`h-7 w-7 rounded flex items-center justify-center transition-all duration-300 relative group cursor-pointer ${
                       isBooked 
@@ -408,24 +409,24 @@ export default function StadiumMap({ selectedBlockIdFromBot, onBookingComplete }
               <>
                 <div className="flex items-center justify-between">
                   <div>
-                    <span className="text-[10px] font-bold text-zinc-500 uppercase">VENUE</span>
+                    <span className="text-[10px] font-bold text-zinc-400 uppercase">VENUE</span>
                     <strong className="text-xs text-zinc-100 block mt-0.5">{selectedStadium.name}</strong>
                   </div>
                   <div className="text-right">
-                    <span className="text-[10px] font-bold text-zinc-500 uppercase">ALLOCATION ZONE</span>
+                    <span className="text-[10px] font-bold text-zinc-400 uppercase">ALLOCATION ZONE</span>
                     <strong className="text-xs text-zinc-200 block mt-0.5">Block {selectedBlock.id}</strong>
                   </div>
                 </div>
 
                 <div className="flex items-center justify-between border-t border-zinc-900 pt-3">
                   <div>
-                    <span className="text-[10px] font-bold text-zinc-500 uppercase">SEAT ROW & NO</span>
+                    <span className="text-[10px] font-bold text-zinc-400 uppercase">SEAT ROW & NO</span>
                     <strong className="text-sm text-amber-500 block mt-0.5 font-mono">
                       Row {selectedSeat.row} • Seat {selectedSeat.number}
                     </strong>
                   </div>
                   <div className="text-right">
-                    <span className="text-[10px] font-bold text-zinc-500 uppercase">SUBTOTAL</span>
+                    <span className="text-[10px] font-bold text-zinc-400 uppercase">SUBTOTAL</span>
                     <strong className="text-sm text-amber-500 block mt-0.5 font-bold">${selectedSeat.price} USD</strong>
                   </div>
                 </div>

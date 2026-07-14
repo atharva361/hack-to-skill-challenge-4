@@ -13,12 +13,13 @@ import StatsDashboard from './components/StatsDashboard';
 import StadiumMap from './components/StadiumMap';
 import AIBot from './components/AIBot';
 import ParameterTesting from './components/ParameterTesting';
+import CrowdManagement from './components/CrowdManagement';
 import { Stadium } from './types';
 import { INITIAL_STADIUMS } from './data/mockData';
-import { Trophy, Armchair, HelpCircle, Compass, ShieldAlert, Settings, Calendar, Award, Star, Activity, Bot, Server, Check } from 'lucide-react';
+import { Trophy, Armchair, HelpCircle, Compass, ShieldAlert, Settings, Calendar, Award, Star, Activity, Bot, Server, Check, Users } from 'lucide-react';
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState<'stats' | 'seating' | 'stadiums' | 'chat' | 'tests'>('stats');
+  const [activeTab, setActiveTab] = useState<'stats' | 'seating' | 'crowd' | 'chat' | 'tests'>('stats');
   const [stadiums, setStadiums] = useState<Stadium[]>(INITIAL_STADIUMS);
   
   // State to pass target block highlight from chatbot to seating map
@@ -135,6 +136,19 @@ export default function App() {
         </button>
 
         <button
+          onClick={() => setActiveTab('crowd')}
+          id="tab-btn-crowd"
+          className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all duration-300 cursor-pointer shrink-0 ${
+            activeTab === 'crowd' 
+              ? 'bg-zinc-900 text-zinc-100 shadow-inner border border-zinc-700' 
+              : 'text-zinc-400 hover:text-zinc-100 hover:bg-zinc-900/40'
+          }`}
+        >
+          <Users className={`h-3.5 w-3.5 ${activeTab === 'crowd' ? 'text-amber-500' : 'text-zinc-400'}`} />
+          Crowd Management & Spotlight
+        </button>
+
+        <button
           onClick={() => setActiveTab('chat')}
           id="tab-btn-chat"
           className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all duration-300 cursor-pointer shrink-0 ${
@@ -178,6 +192,12 @@ export default function App() {
               selectedBlockIdFromBot={targetBlockId} 
               onBookingComplete={handleBookingComplete} 
             />
+          </div>
+        )}
+
+        {activeTab === 'crowd' && (
+          <div className="animate-fade-in" id="panel-view-crowd">
+            <CrowdManagement />
           </div>
         )}
 
@@ -235,9 +255,9 @@ export default function App() {
       </main>
 
       {/* 5. Minimalist Footer */}
-      <footer className="border-t border-zinc-800 bg-zinc-900/40 py-5 text-center text-zinc-500 text-xs mt-auto" id="app-footer-copyright">
+      <footer className="border-t border-zinc-800 bg-zinc-900/40 py-5 text-center text-zinc-300 text-xs mt-auto" id="app-footer-copyright">
         <p>© 2026 FIFA World Cup Seating & Stats Hub. Developed with Google AI Studio.</p>
-        <p className="text-[10px] text-zinc-600 mt-1 font-mono">
+        <p className="text-[10px] text-zinc-400 mt-1 font-mono">
           All data and simulations are verified passing in diagnostic parameters checks.
         </p>
       </footer>
